@@ -14,18 +14,19 @@ import java.util.Hashtable;
 public class Table implements Serializable{
 	
 	private String key;
-	private ArrayList<Page> pages;
+	private int numPages;
 	private ArrayList<String> order;
 	private String tableName;
 	private int keyIndex;
 
 	//Constructor for the Table Class, initializes all the object attributes and creates a starter page for entries
 	public Table (String key, String tableName, Hashtable<String,String> colName) throws IOException {
-		order = new ArrayList<String>();
-		pages = new ArrayList<Page>();
+		this.order = new ArrayList<String>();
 		this.key = key;
 		this.tableName = tableName;
-
+		this.numPages = 0;
+		
+		
 		setKeyIndex(colName);
 		createPage(tableName);
 		updateSer();
@@ -33,7 +34,7 @@ public class Table implements Serializable{
 	
 	//helper Method for Creating new Tables
 	public void createPage(String tableName) throws IOException {
-		String pageName = "" + tableName + this.pages.size();
+		String pageName = "" + tableName + this.numPages;
 		Page p = new Page(pageName,keyIndex);
 		
 		//Writing the new Page into a file
@@ -47,7 +48,6 @@ public class Table implements Serializable{
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
-		this.pages.add(p);
 		updateSer();
 	}
 
@@ -58,7 +58,7 @@ public class Table implements Serializable{
 		//Loading the last page in the table
 		FileInputStream fis = null;
 		ObjectInputStream in = null;
-		int pageCount = pages.size() - 1;
+		int pageCount = this.numPages - 1;
 		fis = new FileInputStream("./Data/" + tableName + pageCount + ".ser");
 		in = new ObjectInputStream(fis);
 		Page p = (Page) in.readObject();
@@ -113,8 +113,8 @@ public class Table implements Serializable{
 	}
 	
 	
-	public ArrayList<Page> getPages() {
-		return this.pages;
+	public int getNumPages() {
+		return this.numPages;
 	}
 
 	

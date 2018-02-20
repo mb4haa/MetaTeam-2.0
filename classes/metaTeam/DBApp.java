@@ -91,12 +91,12 @@ public class DBApp {
 			t = (Table) in.readObject();
 			in.close();
 
-			for (int i=0; i<=t.getPages().size(); i++) {
-				for (int j=0; j<=t.getPages().get(i).getData().length; j++) {
-					for (int k=0; k<t.getPages().get(i).getData()[j].getRow().size(); k++)
-						if (t.getPages().get(i).getData()[j].getRow().get(k).equals(colNameType))
-							t.getPages().get(i).getData()[j].getRow().remove(k);   }}}
-		catch (Exception ex) {
+//			for (int i=0; i<=t.getPages().size(); i++) {
+//				for (int j=0; j<=t.getPages().get(i).getData().length; j++) {
+//					for (int k=0; k<t.getPages().get(i).getData()[j].getRow().size(); k++)
+//						if (t.getPages().get(i).getData()[j].getRow().get(k).equals(colNameType))
+//							t.getPages().get(i).getData()[j].getRow().remove(k);   }}
+		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
 	}
