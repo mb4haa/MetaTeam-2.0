@@ -6,12 +6,13 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 
-public class Page {
+@SuppressWarnings("serial")
+public class Page implements Serializable{
 
 	private String pageName;
 	private Entry[] data;
-	private int keyIndex;
 	
 	//Constructor for the Page which initializes all attributes
 	public Page(String pageName, int keyIndex) throws IOException{
@@ -22,7 +23,7 @@ public class Page {
 		int curr0 = Integer.parseInt(h[1]);
 		data = new Entry[curr0];
 		this.pageName = pageName;
-		this.keyIndex = keyIndex;
+		br.close();
 	}
 	
 	//helper Method for inserting Entries into a page

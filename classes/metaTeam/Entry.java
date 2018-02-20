@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Hashtable;
 
+@SuppressWarnings("serial")
 public class Entry implements Serializable{
 
 	private ArrayList<Object> row;
@@ -40,10 +41,13 @@ public class Entry implements Serializable{
 		row.add(d);
 	}
 
-	
 	public ArrayList<Object> getRow() {
-		return this.row;
-
+		return row;
 	}
+
+	public void setRow(ArrayList<Object> row) {
+		this.row = row;
+	}
+
 
 }
