@@ -9,7 +9,7 @@ public class Test {
 	public static void main(String[] args) throws ClassNotFoundException, IOException {
 		FileInputStream fis = null;
 		ObjectInputStream in = null;
-		for(int i = 0; i < 11; i++) {
+		for(int i = 0; i < 50; i++) {
 			System.out.println("DATA FOR TABLE:" + i);
 			fis = new FileInputStream("./Data/Student" + i + ".ser"); //change page
 			in = new ObjectInputStream(fis);

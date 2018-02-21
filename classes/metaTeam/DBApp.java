@@ -31,6 +31,12 @@ public class DBApp {
 			}
 		}
 
+		if(checkTableExists(tableName)) {
+			System.out.println("Table Already Exists");
+			bw.close();
+			return;
+		}
+		
 		//This loop writes the Table in the metaData File
 		for(Enumeration<String> e = colNameType.keys(); e.hasMoreElements();) {
 			String colName = e.nextElement();
@@ -58,6 +64,11 @@ public class DBApp {
 	//Requested Method for inserting entries into Tables
 	public static void insertIntoTable(String tableName, Hashtable<String, Object> colNameValue) throws DBAppException, IOException, ClassNotFoundException {
 
+		if(! checkTableExists(tableName)) {
+			System.out.println("No Table " + tableName + " Exists.");
+			return;
+		}
+		
 		//This Loop checks Whether the inputs given by the user are of valid Types according to the columns in the table
 		//Using a helper method called checkInputType
 		for(Enumeration<String> e = colNameValue.keys();e.hasMoreElements();) {
@@ -136,6 +147,21 @@ public class DBApp {
 		br.close();
 		return ret;
 	}
+	
+	public static boolean checkTableExists(String tableName) throws IOException {
+		boolean ret = false;
+		FileReader fr = new FileReader("./MetaData.csv");
+		BufferedReader br = new BufferedReader(fr);
+		String curr = br.readLine();
+		while(curr != null) {
+			if(curr.contains("" + tableName)) {
+				return true;
+			}
+			curr = br.readLine();
+		}
+		br.close();
+		return ret;
+	}
 
 	//Main Method for Testing
 	public static void main(String[] args) throws IOException, DBAppException, ClassNotFoundException {
@@ -146,6 +172,32 @@ public class DBApp {
 		htblColNameType.put("gpa", "java.lang.Double");
 		createTable( strTableName, "id", htblColNameType );
 
+/*		Hashtable htblColNameValue = new Hashtable( );
+		htblColNameValue.put("id", new Integer( 2343432 ));
+		htblColNameValue.put("name", new String("Ahmed Noor" ) );
+		htblColNameValue.put("gpa", new Double( 0.95 ) );
+		insertIntoTable( strTableName , htblColNameValue );
+		htblColNameValue.clear( );
+		htblColNameValue.put("id", new Integer( 453455 ));
+		htblColNameValue.put("name", new String("Ahmed Noor" ) );
+		htblColNameValue.put("gpa", new Double( 0.95 ) );
+		insertIntoTable( strTableName , htblColNameValue );
+		htblColNameValue.clear( );
+		htblColNameValue.put("id", new Integer( 5674567 ));
+		htblColNameValue.put("name", new String("Dalia Noor" ) );
+		htblColNameValue.put("gpa", new Double( 1.25 ) );
+		insertIntoTable( strTableName , htblColNameValue );
+		htblColNameValue.clear( );
+		htblColNameValue.put("id", new Integer( 23498 ));
+		htblColNameValue.put("name", new String("John Noor" ) );
+		htblColNameValue.put("gpa", new Double( 1.5 ) );
+		insertIntoTable( strTableName , htblColNameValue );
+		htblColNameValue.clear( );
+		htblColNameValue.put("id", new Integer( 78452 ));
+		htblColNameValue.put("name", new String("Zaky Noor" ) );
+		htblColNameValue.put("gpa", new Double( 0.88 ) );
+		insertIntoTable( strTableName , htblColNameValue );
+		htblColNameValue.clear( ); */
 		for(int i = 100; i > 0; i--) {
 			Hashtable<String, Object> htblColNameValue = new Hashtable<String, Object>( );
 			htblColNameValue.put("id", new Integer( i ));

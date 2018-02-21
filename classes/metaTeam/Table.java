@@ -64,7 +64,7 @@ public class Table implements Serializable{
 		//not bahaa
 		//nafs el fekra ya3ny
 		//Loading the last page in the table
-				FileInputStream fis = null;
+		FileInputStream fis = null;
 		ObjectInputStream in = null;
 		int pageCount = this.numPages - 1;
 		fis = new FileInputStream("./Data/" + tableName + pageCount + ".ser"); //change page
@@ -117,7 +117,9 @@ public class Table implements Serializable{
 		fis.close();
 		in.close();
 		updateSer();
-		insert(entry);
+		if(! searchTable(entry)) {
+			insert(entry);
+		}
 	}
 
 	//helper method that checks whether the table contains the entry or not
@@ -162,7 +164,7 @@ public class Table implements Serializable{
 		}
 		return false;
 	}
-	
+
 	public int compareEntries(Entry entry1,Entry entry2)
 	{ int q = 0;
 	if(keyType.equals("java.lang.String")){
