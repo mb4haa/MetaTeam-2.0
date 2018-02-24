@@ -36,7 +36,7 @@ public class DBApp {
 			bw.close();
 			return;
 		}
-		
+
 		//This loop writes the Table in the metaData File
 		for(Enumeration<String> e = colNameType.keys(); e.hasMoreElements();) {
 			String colName = e.nextElement();
@@ -68,7 +68,7 @@ public class DBApp {
 			System.out.println("No Table " + tableName + " Exists.");
 			return;
 		}
-		
+
 		//This Loop checks Whether the inputs given by the user are of valid Types according to the columns in the table
 		//Using a helper method called checkInputType
 		for(Enumeration<String> e = colNameValue.keys();e.hasMoreElements();) {
@@ -97,26 +97,42 @@ public class DBApp {
 		t.insert(entry);
 	}
 
-//	//Requested Method for deleting entries from Tables
-//	public void deleteFromTable(String tableName, Hashtable<String,Object> colNameType) throws DBAppException, IOException {
-//		FileInputStream fis = null;
-//		ObjectInputStream in = null;
-//		Table t;
-//		try {
-//			fis = new FileInputStream(tableName);
-//			in = new ObjectInputStream(fis);
-//			t = (Table) in.readObject();
-//			in.close();
-//
-//			//			for (int i=0; i<=t.getPages().size(); i++) {
-//			//				for (int j=0; j<=t.getPages().get(i).getData().length; j++) {
-//			//					for (int k=0; k<t.getPages().get(i).getData()[j].getRow().size(); k++)
-//			//						if (t.getPages().get(i).getData()[j].getRow().get(k).equals(colNameType))
-//			//							t.getPages().get(i).getData()[j].getRow().remove(k);   }}
-//		} catch (Exception ex) {
-//			ex.printStackTrace();
-//		}
-//	}
+	public static void updateTable(String tableName,  Hashtable<String, Object> colNameValue) throws IOException, ClassNotFoundException {
+		FileInputStream fis;
+		ObjectInputStream in;
+		fis = new FileInputStream("./Data/" + tableName  +  ".ser");
+		in = new ObjectInputStream(fis);
+		Table table = (Table) in.readObject();
+
+		if(! colNameValue.containsKey(table.getKey())){
+			System.out.println("Key Not given");
+			return;
+		}
+		Entry entry = new Entry(colNameValue, tableName);
+		if(! table.searchTable(entry)) {
+			System.out.println("No Entry with primary key found");
+			return;
+		}
+		table.update(colNameValue);
+		
+	}
+
+	//Requested Method for deleting entries from Tables
+	public static void deleteFromTable(String tableName, Hashtable<String,Object> colNameType) throws DBAppException, IOException {
+		FileInputStream fis = null;
+		ObjectInputStream in = null;
+		Table t;
+		try {
+			fis = new FileInputStream("./data/" + tableName + ".ser");
+			in = new ObjectInputStream(fis);
+			t = (Table) in.readObject();
+			in.close();
+			t.delete(colNameType);
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
 
 	//helper Method for checking the input types while creating new Tables
 	public static boolean checkType(String type) {
@@ -147,7 +163,7 @@ public class DBApp {
 		br.close();
 		return ret;
 	}
-	
+
 	public static boolean checkTableExists(String tableName) throws IOException {
 		boolean ret = false;
 		FileReader fr = new FileReader("./MetaData.csv");
@@ -166,46 +182,28 @@ public class DBApp {
 	//Main Method for Testing
 	public static void main(String[] args) throws IOException, DBAppException, ClassNotFoundException {
 		String strTableName = "Student";
-		Hashtable<String, String> htblColNameType = new Hashtable<String, String>( );
-		htblColNameType.put("id", "java.lang.Integer");
-		htblColNameType.put("name", "java.lang.String");
-		htblColNameType.put("gpa", "java.lang.Double");
-		createTable( strTableName, "id", htblColNameType );
+//		Hashtable<String, String> htblColNameType = new Hashtable<String, String>( );
+//		htblColNameType.put("id", "java.lang.Integer");
+//		htblColNameType.put("name", "java.lang.String");
+//		htblColNameType.put("gpa", "java.lang.Double");
+//		createTable( strTableName, "id", htblColNameType );
+//
+//		for(int i = 0; i < 200; i++) {
+//			Hashtable<String, Object> htblColNameValue = new Hashtable<String, Object>( );
+//			htblColNameValue.put("id", new Integer( i ));
+//			htblColNameValue.put("name", new String("Ahmed Noor" ) );
+//			htblColNameValue.put("gpa", new Double(0.95));
+//			insertIntoTable( strTableName , htblColNameValue );
+//			htblColNameValue.clear();
+//		}
 
-/*		Hashtable htblColNameValue = new Hashtable( );
-		htblColNameValue.put("id", new Integer( 2343432 ));
-		htblColNameValue.put("name", new String("Ahmed Noor" ) );
-		htblColNameValue.put("gpa", new Double( 0.95 ) );
-		insertIntoTable( strTableName , htblColNameValue );
-		htblColNameValue.clear( );
-		htblColNameValue.put("id", new Integer( 453455 ));
-		htblColNameValue.put("name", new String("Ahmed Noor" ) );
-		htblColNameValue.put("gpa", new Double( 0.95 ) );
-		insertIntoTable( strTableName , htblColNameValue );
-		htblColNameValue.clear( );
-		htblColNameValue.put("id", new Integer( 5674567 ));
-		htblColNameValue.put("name", new String("Dalia Noor" ) );
-		htblColNameValue.put("gpa", new Double( 1.25 ) );
-		insertIntoTable( strTableName , htblColNameValue );
-		htblColNameValue.clear( );
-		htblColNameValue.put("id", new Integer( 23498 ));
-		htblColNameValue.put("name", new String("John Noor" ) );
-		htblColNameValue.put("gpa", new Double( 1.5 ) );
-		insertIntoTable( strTableName , htblColNameValue );
-		htblColNameValue.clear( );
-		htblColNameValue.put("id", new Integer( 78452 ));
-		htblColNameValue.put("name", new String("Zaky Noor" ) );
-		htblColNameValue.put("gpa", new Double( 0.88 ) );
-		insertIntoTable( strTableName , htblColNameValue );
-		htblColNameValue.clear( ); */
-		for(int i = 100; i > 0; i--) {
-			Hashtable<String, Object> htblColNameValue = new Hashtable<String, Object>( );
-			htblColNameValue.put("id", new Integer( i ));
-			htblColNameValue.put("name", new String("Ahmed Noor" ) );
-			htblColNameValue.put("gpa", new Double(0.95));
-			insertIntoTable( strTableName , htblColNameValue );
-			htblColNameValue.clear();
-		}
+		Hashtable<String, Object> htblColNameValue = new Hashtable<String, Object>( );
+		htblColNameValue.put("id", new Integer( 199 ));
+		htblColNameValue.put("name", new String("Mahmoud Bahaa" ) );
+		updateTable( strTableName , htblColNameValue );
+
+
+
 	}
 
 }
