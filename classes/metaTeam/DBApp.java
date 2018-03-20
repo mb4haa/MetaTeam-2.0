@@ -41,8 +41,13 @@ public class DBApp {
 			return;
 		}
 
+<<<<<<< HEAD
 		// This loop writes the Table in the metaData File
 		for (Enumeration<String> e = colNameType.keys(); e.hasMoreElements();) {
+=======
+		//This loop writes the Table in the metaData File
+		for(Enumeration<String> e = colNameType.keys(); e.hasMoreElements();) {
+>>>>>>> 420962b019b27af823ddd9b8455e60be7f959016
 			String colName = e.nextElement();
 			String colType = colNameType.get(colName);
 
@@ -74,10 +79,16 @@ public class DBApp {
 			return;
 		}
 
+<<<<<<< HEAD
 		// This Loop checks Whether the inputs given by the user are of valid Types
 		// according to the columns in the table
 		// Using a helper method called checkInputType
 		for (Enumeration<String> e = colNameValue.keys(); e.hasMoreElements();) {
+=======
+		//This Loop checks Whether the inputs given by the user are of valid Types according to the columns in the table
+		//Using a helper method called checkInputType
+		for(Enumeration<String> e = colNameValue.keys();e.hasMoreElements();) {
+>>>>>>> 420962b019b27af823ddd9b8455e60be7f959016
 			String curr = e.nextElement();
 			if (!checkInputType(tableName, curr, colNameValue.get(curr))) {
 				System.out.println("Wrong Input type for " + curr);
@@ -106,6 +117,7 @@ public class DBApp {
 		t.updateIndexes();
 	}
 
+<<<<<<< HEAD
 	public static void updateTable(String tableName, Hashtable<String, Object> colNameValue)
 			throws IOException, ClassNotFoundException {
 		FileInputStream fis;
@@ -113,6 +125,44 @@ public class DBApp {
 		fis = new FileInputStream("./Data/" + tableName + ".ser");
 		in = new ObjectInputStream(fis);
 		Table table = (Table) in.readObject();
+=======
+	public static void updateTable(String tableName,  Hashtable<String, Object> colNameValue) throws IOException, ClassNotFoundException {
+		FileInputStream fis;
+		ObjectInputStream in;
+		fis = new FileInputStream("./Data/" + tableName  +  ".ser");
+		in = new ObjectInputStream(fis);
+		Table table = (Table) in.readObject();
+
+		if(! colNameValue.containsKey(table.getKey())){
+			System.out.println("Key Not given");
+			return;
+		}
+		Entry entry = new Entry(colNameValue, tableName);
+		if(! table.searchTable(entry)) {
+			System.out.println("No Entry with primary key found");
+			return;
+		}
+		table.update(colNameValue);
+		
+	}
+
+	//Requested Method for deleting entries from Tables
+	public static void deleteFromTable(String tableName, Hashtable<String,Object> colNameType) throws DBAppException, IOException {
+		FileInputStream fis = null;
+		ObjectInputStream in = null;
+		Table t;
+		try {
+			fis = new FileInputStream("./data/" + tableName + ".ser");
+			in = new ObjectInputStream(fis);
+			t = (Table) in.readObject();
+			in.close();
+			t.delete(colNameType);
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+>>>>>>> 420962b019b27af823ddd9b8455e60be7f959016
 
 		if (!colNameValue.containsKey(table.getKey())) {
 			System.out.println("Key Not given");
@@ -249,6 +299,7 @@ public class DBApp {
 	// Main Method for Testing
 	public static void main(String[] args) throws IOException, DBAppException, ClassNotFoundException {
 		String strTableName = "Student";
+<<<<<<< HEAD
 //		Hashtable<String, String> htblColNameType = new Hashtable<String, String>();
 //		htblColNameType.put("id", "java.lang.Integer");
 //		htblColNameType.put("name", "java.lang.String");
@@ -304,6 +355,30 @@ public class DBApp {
 		Hashtable<String, Object> htblColNameValue3 = new Hashtable<String, Object>();
 		 htblColNameValue3.put("name", new String("Mahmoud Bahaa"));
 		 deleteFromTable(strTableName, htblColNameValue3);
+=======
+//		Hashtable<String, String> htblColNameType = new Hashtable<String, String>( );
+//		htblColNameType.put("id", "java.lang.Integer");
+//		htblColNameType.put("name", "java.lang.String");
+//		htblColNameType.put("gpa", "java.lang.Double");
+//		createTable( strTableName, "id", htblColNameType );
+//
+//		for(int i = 0; i < 200; i++) {
+//			Hashtable<String, Object> htblColNameValue = new Hashtable<String, Object>( );
+//			htblColNameValue.put("id", new Integer( i ));
+//			htblColNameValue.put("name", new String("Ahmed Noor" ) );
+//			htblColNameValue.put("gpa", new Double(0.95));
+//			insertIntoTable( strTableName , htblColNameValue );
+//			htblColNameValue.clear();
+//		}
+
+		Hashtable<String, Object> htblColNameValue = new Hashtable<String, Object>( );
+		htblColNameValue.put("id", new Integer( 199 ));
+		htblColNameValue.put("name", new String("Mahmoud Bahaa" ) );
+		updateTable( strTableName , htblColNameValue );
+
+
+
+>>>>>>> 420962b019b27af823ddd9b8455e60be7f959016
 	}
 
 }
