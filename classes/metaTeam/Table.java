@@ -2,7 +2,6 @@ package metaTeam;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -83,14 +82,8 @@ public class Table implements Serializable {
 			entryCount = getEntryCount(p.getData());
 			Entry lastEntry = p.getData()[entryCount - 1];
 			int q = compareEntries(entry, lastEntry);
-<<<<<<< HEAD
 			if (q == -1) {
 				for (int qq = 0; qq < entryCount; qq++) {
-=======
-			System.out.println(q);
-			if(q == -1){
-				for (int qq = 0; qq < entryCount  ; qq++){	
->>>>>>> 420962b019b27af823ddd9b8455e60be7f959016
 					Entry entryq = p.getData()[qq];
 					if (compareEntries(entry, entryq) == -1) {
 						p.getData()[qq] = entry;
@@ -101,13 +94,7 @@ public class Table implements Serializable {
 					}
 				}
 				break;
-<<<<<<< HEAD
 			} else if (getEntryCount(p.getData()) != p.getData().length) {
-=======
-			}
-			else if (getEntryCount(p.getData()) != p.getData().length){
-				System.out.println("da5al?");
->>>>>>> 420962b019b27af823ddd9b8455e60be7f959016
 				p.insert(entry, entryCount);
 				fis.close();
 				in.close();
@@ -129,51 +116,6 @@ public class Table implements Serializable {
 		updateSer();
 		if (!searchTable(entry)) {
 			insert(entry);
-		}
-	}
-	
-	public static Entry edit(Entry newEntry, Entry oldEntry) {
-		int count = 0;
-		for (Object obj : newEntry.getRow()) {
-			if(obj != null) {
-				oldEntry.getRow().set(count, obj);
-			}
-			count++;
-		}
-		return oldEntry;
-	}
-	
-	public void update(Hashtable<String, Object> colNameValue ) throws ClassNotFoundException, IOException {	
-		Entry entry = new Entry(colNameValue, tableName);
-		Entry entryToCompare;
-		FileInputStream fis = null;
-		ObjectInputStream in = null;
-		
-		
-		for (int i = 0; i < this.numPages ; i++){
-			fis = new FileInputStream("./Data/" + tableName + "" + i + ".ser");
-			in = new ObjectInputStream(fis);
-			Page p = (Page) in.readObject();
-			int entryCount = getEntryCount(p.getData());
-			 
-			Entry lastEntry = p.getData()[entryCount-1];
-			int q = compareEntries(entry, lastEntry);
-			 if(q == -1) {
-				for (int qq = 0; qq < entryCount  ; qq++){	
-					entryToCompare = p.getData()[qq];
-					int qqq = compareEntries(entry, entryToCompare); 
-					if(qqq == 0) {
-						p.getData()[qq] = edit(entry, entryToCompare);
-						p.updatePage();
-						return;
-					}
-				}
-			}
-			 else if(q == 0) {
-				 p.getData()[entryCount - 1] = edit(entry, lastEntry);
-				 p.updatePage();
-				 return;
-			 }
 		}
 	}
 
@@ -358,23 +300,7 @@ public class Table implements Serializable {
 		}
 		return false;
 	}
-	public int Search2(Entry entry) throws IOException, ClassNotFoundException{
-		FileInputStream fis = null;
-		ObjectInputStream in = null;
-		for(int i = 0; i < numPages; i++) {
-			fis = new FileInputStream("./Data/" + tableName + "" + i + ".ser");
-			in = new ObjectInputStream(fis);
-			Page p = (Page) in.readObject();
-			int entryCount = getEntryCount(p.getData());
-			Entry entry1;
-			entry1 = p.getData()[entryCount - 1];
-			int comp = compareEntries(entry, entry1);
-			if(comp == -1) {
-				for(int j = entryCount - 2;j >= 0;j--) {
-					Entry entry2 = p.getData()[j];
-					int comp2 = compareEntries(entry, entry2);
 
-<<<<<<< HEAD
 	public boolean searchIndexed(Entry entry, String colName, int numPages) throws IOException, ClassNotFoundException {
 		FileInputStream fis = null;
 		ObjectInputStream in = null;
@@ -467,96 +393,6 @@ public class Table implements Serializable {
 		} else if (keyType.equals("java.lang.Double")) {
 			q = ((Double) entry1.getRow().get(keyIndex)).compareTo((Double) entry2.getRow().get(keyIndex));
 		} else {
-=======
-
-					if(comp2 == 0){
-						fis.close();
-						in.close();
-						return j;
-					}
-				}
-			}
-			else if(comp == 0) {
-				fis.close();
-				in.close();
-				return entryCount - 1;
-			}
-		}
-		return -1;
-	}
-
-	public void delete(Hashtable<String, Object> colNameType) throws IOException, ClassNotFoundException {
-
-		for (Enumeration<String> columns = colNameType.keys(); columns.hasMoreElements();) {
-			if (columns.nextElement().equals(key)) {
-				Entry row = new Entry(colNameType, tableName);
-
-				try {
-					if (searchTable(row)) {
-						FileInputStream fis = null;
-						ObjectInputStream in = null;
-						int page = -1;
-						for (int i = 0; i < numPages; i++) {
-							int index = Search2(row);
-							fis = new FileInputStream("./Data/" + tableName + "" + i + ".ser");
-							in = new ObjectInputStream(fis);
-							Page p = (Page) in.readObject();
-							int entryCount = getEntryCount(p.getData());
-							if(index != -1) {
-								if(p.getData()[index].getRow().get(keyIndex).equals(colNameType.get(key))) {
-									p.getData()[index] = null;
-									p.updatePage();
-									page=i;
-								}
-							}
-							else {
-								index = 0;
-							}
-							for(int x = index;x<entryCount - 1;x++){
-								if(i != page && page != -1 && x == index){
-									Entry temp1 = p.getData()[0];
-									System.out.println("i= + " + i);
-									System.out.println(temp1.getRow().get(2));
-									insert(temp1);
-									p.getData()[0] = null;
-								}
-								p.getData()[x] = p.getData()[x + 1];
-								p.getData()[x+1] = null;
-								p.updatePage();
-							}
-
-						}
-						updateSer();
-					}
-				} catch (ClassNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-
-		}
-
-	}
-
-	public int compareEntries(Entry entry1,Entry entry2){
-		int q = 0;
-		if(entry2 == null) {
-			return 1;
-		}
-		else if(keyType.equals("java.lang.String")){
-			q = ((String) entry1.getRow().get(keyIndex)).compareTo((String) entry2.getRow().get(keyIndex));
-		}
-		else if(keyType.equals("java.lang.Integer")){	
-			q =  ((Integer) entry1.getRow().get(keyIndex)).compareTo((Integer) entry2.getRow().get(keyIndex));
-		}
-		else if(keyType.equals("java.lang.Double")){
-			q = ((Double) entry1.getRow().get(keyIndex)).compareTo((Double) entry2.getRow().get(keyIndex));
-		}
-		else {
->>>>>>> 420962b019b27af823ddd9b8455e60be7f959016
 			q = ((Date) entry1.getRow().get(keyIndex)).compareTo((Date) entry2.getRow().get(keyIndex));
 		}
 		return q;
@@ -618,7 +454,6 @@ public class Table implements Serializable {
 		return key;
 	}
 
-<<<<<<< HEAD
 	public void createIndex(String colName) throws ClassNotFoundException, IOException {
 		int index;
 		index = -1;
@@ -815,6 +650,4 @@ public class Table implements Serializable {
 		return indexedCols;
 	}
 
-=======
->>>>>>> 420962b019b27af823ddd9b8455e60be7f959016
 }
