@@ -40,6 +40,10 @@ public class Entry implements Serializable{
 		Date d = new Date();
 		row.add(d);
 	}
+	
+	public Entry() {
+		row = new ArrayList<>();
+	}
 
 	public ArrayList<Object> getRow() {
 		return row;
