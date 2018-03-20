@@ -249,30 +249,30 @@ public class DBApp {
 	// Main Method for Testing
 	public static void main(String[] args) throws IOException, DBAppException, ClassNotFoundException {
 		String strTableName = "Student";
-//		Hashtable<String, String> htblColNameType = new Hashtable<String, String>();
-//		htblColNameType.put("id", "java.lang.Integer");
-//		htblColNameType.put("name", "java.lang.String");
-//		htblColNameType.put("gpa", "java.lang.Double");
-//		createTable(strTableName, "id", htblColNameType);
-//
-//		for (int i = 0; i < 200; i++) {
-//			Hashtable<String, Object> htblColNameValue = new Hashtable<String, Object>();
-//			htblColNameValue.put("id", new Integer(i));
-//			htblColNameValue.put("name", new String("Ahmed Noor"));
-//			htblColNameValue.put("gpa", new Double(0.95));
-//			insertIntoTable(strTableName, htblColNameValue);
-//			htblColNameValue.clear();
-//		}
-//		
-//		for (int i = 0; i < 200; i += 10) {
-//			Hashtable<String, Object> htblColNameValue = new Hashtable<String, Object>();
-//			htblColNameValue.put("id", new Integer(i));
-//			htblColNameValue.put("name", new String("Mahmoud Bahaa"));
-//			htblColNameValue.put("gpa", new Double(0.95));
-//			updateTable(strTableName, htblColNameValue);
-//			htblColNameValue.clear();
-//		}
-//		
+		Hashtable<String, String> htblColNameType = new Hashtable<String, String>();
+		htblColNameType.put("id", "java.lang.Integer");
+		htblColNameType.put("name", "java.lang.String");
+		htblColNameType.put("gpa", "java.lang.Double");
+		createTable(strTableName, "id", htblColNameType);
+
+		for (int i = 0; i < 200; i++) {
+			Hashtable<String, Object> htblColNameValue = new Hashtable<String, Object>();
+			htblColNameValue.put("id", new Integer(i));
+			htblColNameValue.put("name", new String("Ahmed Noor"));
+			htblColNameValue.put("gpa", new Double(0.95));
+			insertIntoTable(strTableName, htblColNameValue);
+			htblColNameValue.clear();
+		}
+		
+		for (int i = 0; i < 200; i += 10) {
+			Hashtable<String, Object> htblColNameValue = new Hashtable<String, Object>();
+			htblColNameValue.put("id", new Integer(i));
+			htblColNameValue.put("name", new String("Mahmoud Bahaa"));
+			htblColNameValue.put("gpa", new Double(0.95));
+			updateTable(strTableName, htblColNameValue);
+			htblColNameValue.clear();
+		}
+		
 //		 for(int i = 0; i < 200; i+= 5) {
 //		 Hashtable<String, Object> htblColNameValue = new Hashtable<String, Object>();
 //		 htblColNameValue.put("id", new Integer( i ));
@@ -285,21 +285,21 @@ public class DBApp {
 //		 htblColNameValue.put("gpa", new Double(1.00));
 //		 deleteFromTable(strTableName, htblColNameValue);
 
-//		createBRINIndex(strTableName, "name");
-//		
-//		Hashtable<String, Object> htblColNameValue = new Hashtable<String, Object>();
-//		htblColNameValue.put("id", new Integer(199));
-//		htblColNameValue.put("name", new String("Ziad Noor"));
-//		htblColNameValue.put("gpa", new Double(0.95));
-//		updateTable(strTableName, htblColNameValue);
-//		htblColNameValue.clear();
-//		
-//		Hashtable<String, Object> htblColNameValue2 = new Hashtable<String, Object>();
-//		htblColNameValue2.put("id", new Integer(200));
-//		htblColNameValue2.put("name", new String("Lame Noor"));
-//		htblColNameValue2.put("gpa", new Double(0.95));
-//		insertIntoTable(strTableName, htblColNameValue2);
-//		htblColNameValue2.clear();
+		createBRINIndex(strTableName, "name");
+		
+		Hashtable<String, Object> htblColNameValue = new Hashtable<String, Object>();
+		htblColNameValue.put("id", new Integer(199));
+		htblColNameValue.put("name", new String("Ziad Noor"));
+		htblColNameValue.put("gpa", new Double(0.95));
+		updateTable(strTableName, htblColNameValue);
+		htblColNameValue.clear();
+		
+		Hashtable<String, Object> htblColNameValue2 = new Hashtable<String, Object>();
+		htblColNameValue2.put("id", new Integer(200));
+		htblColNameValue2.put("name", new String("Lame Noor"));
+		htblColNameValue2.put("gpa", new Double(0.95));
+		insertIntoTable(strTableName, htblColNameValue2);
+		htblColNameValue2.clear();
 
 		Hashtable<String, Object> htblColNameValue3 = new Hashtable<String, Object>();
 		 htblColNameValue3.put("name", new String("Mahmoud Bahaa"));

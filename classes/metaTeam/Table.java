@@ -203,20 +203,6 @@ public class Table implements Serializable {
 							p.updatePage();
 							j++;
 						}
-						// for(int k = i + 1; k < this.numPages; k++) {
-						// fis = new FileInputStream("./Data/" + tableName + "" + k + ".ser");
-						// in = new ObjectInputStream(fis);
-						// Page p2 = (Page) in.readObject();
-						// int entryCount2 = getEntryCount(p.getData());
-						// for(int m = 0; m < entryCount2 - 1; m++) {
-						// if(m == 0) {
-						// insert(p2.getData()[m]);
-						// }
-						// p.getData()[m] = p.getData()[m + 1];
-						// p.getData()[m + 1] = null;
-						// p.updatePage();
-						// }
-						// }
 						j = 0;
 						entryCount = getEntryCount(p.getData());
 					}
@@ -592,6 +578,19 @@ public class Table implements Serializable {
 		String pageName = "" + tableName + colName + "Brin0";
 		BrinPage bP = new BrinPage(pageName);
 		int count = 0;
+		int sumEntries = 0;
+		for(int i = 0;i < numPages; i++) {
+			FileInputStream fis = null;
+			ObjectInputStream in = null;
+			fis = new FileInputStream("./Data/" + tableName+ i + ".ser"); // change page
+			in = new ObjectInputStream(fis);
+			Page p = (Page) in.readObject();
+			int entryCount = getEntryCount(p.getData());
+			sumEntries += entryCount;
+		}
+		
+		int numPages = ((sumEntries % 10) == 0)? (sumEntries/10) : (sumEntries/10) + 1;
+		System.out.println(numPages);
 
 		// Writing the new Page into a file
 		FileOutputStream fos = null;
